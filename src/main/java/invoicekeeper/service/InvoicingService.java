@@ -66,6 +66,8 @@ public class InvoicingService {
         return true;
     }
 
+    //COMPANY METHODS
+
     @Transactional
     public CompanyDto addNewCompany(AddNewCompanyCommand command) {
         Company newCompany = modelMapper.map(command, Company.class);
@@ -75,12 +77,13 @@ public class InvoicingService {
 
     @Transactional
     public InvoiceDto addNewInvoiceToCompany(long id, AddNewInvoiceCommand command) {
-        Company companyFound = findCompanyById(id);
         Invoice newInvoice = modelMapper.map(command, Invoice.class);
-        companyFound.addInvoice(newInvoice);
-        InvoiceDto result = modelMapper.map(newInvoice, InvoiceDto.class);
-        result.setCompanyName(companyFound.getCompanyName());
-        return result;
+        Company companyFound = findCompanyById(id);
+        newInvoice.setCompany(companyFound);
+        invoiceRepository.save(newInvoice);
+        InvoiceDto resultDto = modelMapper.map(newInvoice, InvoiceDto.class);
+        resultDto.setCompanyName(companyFound.getCompanyName());
+        return resultDto;
     }
 
     @Transactional
@@ -94,8 +97,12 @@ public class InvoicingService {
         return modelMapper.map(findCompanyById(id), CompanyDto.class);
     }
 
-    public List<CompanyDto> findAllCompanies(Optional<String> companyName, Optional<String> vatNumber) {
-        List<Company> companiesFound = companyRepository.findAllCompanies(companyName, vatNumber);
+    public CompanyDto getCompanyByVatNumber(String vatNumber) {
+        return modelMapper.map(companyRepository.findCompanyByVatNumber(vatNumber), CompanyDto.class);
+    }
+
+    public List<CompanyDto> findAllCompanies(Optional<String> textInCompanyName) {
+        List<Company> companiesFound = companyRepository.findAllCompanies(textInCompanyName);
         Type resultList = new TypeToken<List<CompanyDto>>(){}.getType();
         return modelMapper.map(companiesFound, resultList);
     }

@@ -43,10 +43,65 @@ GET http://localhost:8080/api/invoices/2
 Accept: application/json
 
 ###
-GET http://localhost:8080/api/invoices?isOverDue=yes
+GET http://localhost:8080/api/invoices?vatNumber=2134848-4-58&companyName=Pannon Egyetem
 Accept: application/json
 
 ###
 DELETE http://localhost:8080/api/invoices/2
 
 ###
+POST http://localhost:8080/api/companies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "companyName": "Infornax Kft",
+  "vatNumber": "121034",
+  "bankAccountNumber": "48964812-86548945"
+}
+
+###
+POST http://localhost:8080/api/companies/3
+Content-Type: application/json
+Accept: application/json
+
+{
+  "invoiceNumber": "RSA16-4545",
+  "issueDate": "2022-05-11",
+  "dueDate": "2022-05-30",
+  "paymentStatus": "UNPAYED",
+   "items": [
+     {
+       "name": "Számológép",
+       "pieces": 2,
+       "priceTotal": 5000
+     },
+     {
+       "name": "Pénztárca",
+       "pieces": 4,
+       "priceTotal": 6000
+     }
+   ],
+  "amount": 11000
+}
+
+###
+GET http://localhost:8080/api/companies/2
+Accept: application/json
+
+###
+GET http://localhost:8080/api/companies/vatNumber/2134848-4-58
+Accept: application/json
+
+###
+PUT http://localhost:8080/api/companies/2
+Accept: application/json
+Content-Type: application/json
+
+{
+  "bankAccountNumber": "12345678-45681111"
+}
+
+###
+DELETE http://localhost:8080/api/companies/4
+Accept: application/json
