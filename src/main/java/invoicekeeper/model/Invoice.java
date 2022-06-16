@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class Invoice {
     @Column(name = "invoice_id")
     private Long id;
 
-    @Column(name = "invoice_number")
+    @Column(name = "invoice_number", unique = true)
     private String invoiceNumber;
 
     @Column(name = "date_of_issue")
@@ -39,7 +40,7 @@ public class Invoice {
     @ElementCollection
     @CollectionTable(name = "items_on_invoices", joinColumns = @JoinColumn(name = "invoice_id"))
     @Column(name = "items_ordered")
-    private List<InvoiceItem> items;
+    private List<InvoiceItem> items = new ArrayList<>();
 
     @Column(name = "amount_total")
     private int amount;
@@ -53,11 +54,11 @@ public class Invoice {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Invoice invoice = (Invoice) o;
-        return Objects.equals(invoiceNumber, invoice.invoiceNumber) && Objects.equals(company, invoice.company);
+        return Objects.equals(invoiceNumber, invoice.invoiceNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(invoiceNumber, company);
+        return Objects.hash(invoiceNumber);
     }
 }

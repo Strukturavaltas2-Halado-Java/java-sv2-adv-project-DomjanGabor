@@ -1,0 +1,52 @@
+POST http://localhost:8080/api/invoices
+Content-Type: application/json
+Accept: application/json
+
+{
+  "invoiceNumber": "821234AB",
+  "issueDate": "2022-06-10",
+  "dueDate": "2022-06-18",
+  "paymentStatus": "UNPAYED",
+  "items": [
+    {
+      "name": "WC papír",
+      "pieces": 5,
+      "priceTotal": 1500
+    },
+    {
+      "name": "Toll",
+      "pieces": 3,
+      "priceTotal": 900
+    }
+  ],
+  "company": {
+    "companyName": "Pannon Egyetem",
+    "vatNumber": "2134848-4-58",
+    "bankAccountNumber": "42868483-17000587"
+  },
+  "amount": 2400
+}
+
+###
+PUT http://localhost:8080/api/invoices/payment
+Content-Type: application/json
+Accept: application/json
+
+{
+  "invoiceNumber": "1234AB",
+  "amount": 2400,
+  "bankAccountNumber": "42868483-17000587"
+}
+
+###
+GET http://localhost:8080/api/invoices/2
+Accept: application/json
+
+###
+GET http://localhost:8080/api/invoices?isOverDue=yes
+Accept: application/json
+
+###
+DELETE http://localhost:8080/api/invoices/2
+
+###
