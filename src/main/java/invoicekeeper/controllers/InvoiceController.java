@@ -5,6 +5,9 @@ import invoicekeeper.dtos.InvoiceDto;
 import invoicekeeper.dtos.PayInvoiceCommand;
 import invoicekeeper.service.InvoicingService;
 import invoicekeeper.validators.Violation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -26,20 +29,29 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/invoices")
 @AllArgsConstructor
+@Tag(name = "Operations on invoices")
 public class InvoiceController {
     private InvoicingService service;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Save new invoice to database.",
+            description = "Saving new invoice to database. If the company which issued the invoice is not the the database, it is also saved.")
     public InvoiceDto saveNewInvoice(@Valid @RequestBody CreateNewInvoiceCommand command) {
         return service.saveNewInvoice(command);
     }
 
     @GetMapping("/{id}")
-    public InvoiceDto getInvoiceById(@PathVariable("id") long id) {
+    @ResponseStatus(HttpStatus.FOUND)
+    @Operation(summary = "Find an invoice by id.")
+    public InvoiceDto getInvoiceById(@Parameter(example = "3") @PathVariable("id") long id) {
         return service.getInvoiceById(id);
     }
 
     @GetMapping()
+    @ResponseStatus(HttpStatus.FOUND)
+    @Operation(summary = "Find invoice by parameters.",
+            description = "Add paramteres in the URL to filter for: company name, VAT number, invoices issued after date, overdue invoices.")
     public List<InvoiceDto> getAllInvoices(@RequestParam Optional<String> companyName, @RequestParam Optional<String> vatNumber,
                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> issuedAfter,
                                            @RequestParam Optional<String> isOverDue) {
@@ -47,12 +59,16 @@ public class InvoiceController {
     }
 
     @PutMapping("/payment")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Pay invoice.")
     public InvoiceDto payInvoice(@Valid @RequestBody PayInvoiceCommand command) {
         return service.payInvoice(command);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteInvoiceById(@PathVariable("id") long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete an invoice with given id.")
+    public boolean deleteInvoiceById(@Parameter(example = "1") @PathVariable("id") long id) {
         return service.deleteInvoiceById(id);
     }
 

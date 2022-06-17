@@ -37,7 +37,7 @@ Accept: application/json
 }
 
 ###
-GET http://localhost:8080/api/invoices/2
+GET http://localhost:8080/api/invoices/3
 Accept: application/json
 
 ###

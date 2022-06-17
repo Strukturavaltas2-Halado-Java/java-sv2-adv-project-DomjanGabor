@@ -3,6 +3,9 @@ package invoicekeeper.controllers;
 import invoicekeeper.dtos.*;
 import invoicekeeper.service.InvoicingService;
 import invoicekeeper.validators.Violation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,41 +25,56 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/companies")
 @AllArgsConstructor
+@Tag(name = "Operations on companies")
 public class CompanyController {
     private InvoicingService service;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Adding new company to database.")
     public CompanyDto addNewCompany(@Valid @RequestBody AddNewCompanyCommand command) {
         return service.addNewCompany(command);
     }
 
     @PostMapping("/{id}")
-    public CompanyDto addInvoiceToCompany(@PathVariable("id") long id, @Valid @RequestBody AddNewInvoiceCommand command) {
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Adding new invoice to company.")
+    public CompanyDto addInvoiceToCompany(@Parameter(example = "1") @PathVariable("id") long id, @Valid @RequestBody AddNewInvoiceCommand command) {
         return service.addNewInvoiceToCompany(id, command);
     }
 
     @GetMapping("/{id}")
-    public CompanyDto findCompanyById(@PathVariable("id") long id) {
+    @ResponseStatus(HttpStatus.FOUND)
+    @Operation(summary = "Finding a company by its ID.")
+    public CompanyDto findCompanyById(@Parameter(example = "2") @PathVariable("id") long id) {
         return service.getCompanyById(id);
     }
 
     @GetMapping("/vat-number/{vat}")
-    public CompanyDto findCompanyByVatNumber(@PathVariable("vat") String vatNumber) {
+    @ResponseStatus(HttpStatus.FOUND)
+    @Operation(summary = "Finding a company by its VAT number.")
+    public CompanyDto findCompanyByVatNumber(@Parameter(example = "84512648-1-45") @PathVariable("vat") String vatNumber) {
         return service.getCompanyByVatNumber(vatNumber);
     }
 
     @GetMapping()
-    public List<CompanyDto> findAllCompanies(@RequestParam Optional<String> textInCompanyName) {
+    @ResponseStatus(HttpStatus.FOUND)
+    @Operation(summary = "Search for companies by name using a string of text.")
+    public List<CompanyDto> findAllCompanies(@Parameter(example = "Euro") @RequestParam Optional<String> textInCompanyName) {
         return service.findAllCompanies(textInCompanyName);
     }
 
     @PutMapping()
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Update the bank account number of a company.")
     public CompanyDto changeCompanyAccountNumber(@Valid @RequestBody UpdateAccountNumberCommand command) {
         return service.updateAccountNumber(command);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteCompanyById(@PathVariable("id") long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete company by ID.")
+    public boolean deleteCompanyById(@Parameter(example = "1") @PathVariable("id") long id) {
         return service.deleteCompanyById(id);
     }
 
