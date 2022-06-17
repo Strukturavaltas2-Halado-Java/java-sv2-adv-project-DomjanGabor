@@ -3,8 +3,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "invoiceNumber": "821234AB",
-  "issueDate": "2022-06-10",
+  "invoiceNumber": "1234AB",
+  "issueDate": "2022-06-16",
   "dueDate": "2022-06-18",
   "paymentStatus": "UNPAYED",
   "items": [
@@ -33,9 +33,9 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "invoiceNumber": "1234AB",
-  "amount": 2400,
-  "bankAccountNumber": "42868483-17000587"
+  "invoiceNumber": "123456AB",
+  "amount": 1200,
+  "bankAccountNumber": "12345876-86496452"
 }
 
 ###
@@ -61,12 +61,12 @@ Accept: application/json
 }
 
 ###
-POST http://localhost:8080/api/companies/3
+POST http://localhost:8080/api/companies/2
 Content-Type: application/json
 Accept: application/json
 
 {
-  "invoiceNumber": "RSA16-4545",
+  "invoiceNumber": "RS110A16-4545",
   "issueDate": "2022-05-11",
   "dueDate": "2022-05-30",
   "paymentStatus": "UNPAYED",
@@ -94,12 +94,13 @@ GET http://localhost:8080/api/companies/vatNumber/2134848-4-58
 Accept: application/json
 
 ###
-PUT http://localhost:8080/api/companies/2
+PUT http://localhost:8080/api/companies
 Accept: application/json
 Content-Type: application/json
 
 {
-  "bankAccountNumber": "12345678-45681111"
+  "vatNumber": "1234115678-1-45",
+  "bankAccountNumber": "12345678-0000000"
 }
 
 ###

@@ -38,6 +38,7 @@ public class Company {
 
     public void addInvoice(Invoice invoice) {
         invoices.add(invoice);
+        invoice.setCompany(this);
     }
 
     @Override

@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
-    Invoice findAllByInvoiceNumber(String invoiceNumber);
+    Optional<Invoice> findByInvoiceNumber(String invoiceNumber);
+
     @Query("select i from Invoice i where " +
             "(:companyName is null or i.company.companyName = :companyName) and" +
             "(:vatNumber is null or i.company.vatNumber = :vatNumber) and " +

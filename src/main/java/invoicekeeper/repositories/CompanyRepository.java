@@ -13,6 +13,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query("select c from Company c where :textInCompanyName is null or c.companyName like %:textInCompanyName%")
     List<Company> findAllCompanies(Optional<String> textInCompanyName);
 
-    Company findCompanyByVatNumber(String vatNumber);
+    Optional<Company> findCompanyByVatNumber(String vatNumber);
 
 }

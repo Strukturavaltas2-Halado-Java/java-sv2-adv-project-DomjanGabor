@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class InvoiceController {
     private InvoicingService service;
 
     @PostMapping
-    public InvoiceDto saveNewInvoice(@RequestBody CreateNewInvoiceCommand command) {
+    public InvoiceDto saveNewInvoice(@Valid @RequestBody CreateNewInvoiceCommand command) {
         return service.saveNewInvoice(command);
     }
 
@@ -36,7 +37,7 @@ public class InvoiceController {
     }
 
     @PutMapping("/payment")
-    public InvoiceDto payInvoice(@RequestBody PayInvoiceCommand command) {
+    public InvoiceDto payInvoice(@Valid @RequestBody PayInvoiceCommand command) {
         return service.payInvoice(command);
     }
 

@@ -5,6 +5,7 @@ import invoicekeeper.service.InvoicingService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,12 +16,12 @@ public class CompanyController {
     private InvoicingService service;
 
     @PostMapping
-    public CompanyDto addNewCompany(@RequestBody AddNewCompanyCommand command) {
+    public CompanyDto addNewCompany(@Valid @RequestBody AddNewCompanyCommand command) {
         return service.addNewCompany(command);
     }
 
     @PostMapping("/{id}")
-    public InvoiceDto addInvoiceToCompany(@PathVariable("id") long id, @RequestBody AddNewInvoiceCommand command) {
+    public CompanyDto addInvoiceToCompany(@PathVariable("id") long id, @Valid @RequestBody AddNewInvoiceCommand command) {
         return service.addNewInvoiceToCompany(id, command);
     }
 
@@ -39,9 +40,9 @@ public class CompanyController {
         return service.findAllCompanies(textInCompanyName);
     }
 
-    @PutMapping("/{id}")
-    public CompanyDto changeCompanyAccountNumber(@PathVariable("id") long id, @RequestBody UpdateAccountNumberCommand command) {
-        return service.updateAccountNumber(id, command);
+    @PutMapping()
+    public CompanyDto changeCompanyAccountNumber(@Valid @RequestBody UpdateAccountNumberCommand command) {
+        return service.updateAccountNumber(command);
     }
 
     @DeleteMapping("/{id}")
