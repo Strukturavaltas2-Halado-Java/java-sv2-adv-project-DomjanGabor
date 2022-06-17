@@ -1,5 +1,6 @@
 package invoicekeeper.dtos;
 
+import invoicekeeper.validators.ValidAccountNumber;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,6 @@ public class PayInvoiceCommand {
     private int amount;
 
     @NotBlank
+    @ValidAccountNumber
     private String bankAccountNumber;
 }

@@ -26,7 +26,7 @@ public class Company {
     @Column(name = "name_of_company")
     private String companyName;
 
-    @Column(name = "VAT_number", unique = true)
+    @Column(name = "vat_number", unique = true)
     private String vatNumber;
 
     @Column(name = "bank_account_number")
@@ -35,6 +35,12 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Column(name = "invoices")
     private List<Invoice> invoices = new ArrayList<>();
+
+    public Company(String companyName, String vatNumber, String bankAccountNumber) {
+        this.companyName = companyName;
+        this.vatNumber = vatNumber;
+        this.bankAccountNumber = bankAccountNumber;
+    }
 
     public void addInvoice(Invoice invoice) {
         invoices.add(invoice);

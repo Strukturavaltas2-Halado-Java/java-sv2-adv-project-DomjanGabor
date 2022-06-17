@@ -3,7 +3,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "invoiceNumber": "1234AB",
+  "invoiceNumber": "1454545",
   "issueDate": "2022-06-16",
   "dueDate": "2022-06-18",
   "paymentStatus": "UNPAYED",
@@ -19,12 +19,10 @@ Accept: application/json
       "priceTotal": 900
     }
   ],
-  "company": {
-    "companyName": "Pannon Egyetem",
-    "vatNumber": "2134848-4-58",
-    "bankAccountNumber": "42868483-17000587"
-  },
-  "amount": 2400
+  "amount": 2400,
+  "companyName": "Pannon Egyetem",
+  "vatNumber": "12341178-1-45",
+  "bankAccountNumber": "42868483-17058745-12345678"
 }
 
 ###
@@ -56,8 +54,8 @@ Accept: application/json
 
 {
   "companyName": "Infornax Kft",
-  "vatNumber": "121034",
-  "bankAccountNumber": "48964812-86548945"
+  "vatNumber": "12345670-1-22",
+  "bankAccountNumber": "48964812-86548945-00000000"
 }
 
 ###
@@ -90,7 +88,7 @@ GET http://localhost:8080/api/companies/2
 Accept: application/json
 
 ###
-GET http://localhost:8080/api/companies/vatNumber/2134848-4-58
+GET http://localhost:8080/api/companies/vat-number/2134848-4-58
 Accept: application/json
 
 ###

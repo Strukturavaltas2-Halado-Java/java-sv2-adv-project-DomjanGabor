@@ -30,8 +30,7 @@ public class InvoicingService {
     @Transactional
     public InvoiceDto saveNewInvoice(CreateNewInvoiceCommand command) {
         checkIfInvoiceAlreadyExists(command.getInvoiceNumber());
-        Invoice newInvoice = modelMapper.map(command, Invoice.class);
-        checkForExistingCompanyThenSave(newInvoice.getCompany(), newInvoice);
+        Invoice newInvoice = checkForExistingCompanyThenSave(command);
         InvoiceDto resultDto = modelMapper.map(newInvoice, InvoiceDto.class);
         resultDto.setCompanyName(newInvoice.getCompany().getCompanyName());
         return resultDto;
@@ -70,6 +69,7 @@ public class InvoicingService {
     }
 
     //COMPANY METHODS
+
     @Transactional
     public CompanyDto addNewCompany(AddNewCompanyCommand command) {
         checkIfCompanyAlreadyExists(command.getVatNumber());
@@ -121,15 +121,18 @@ public class InvoicingService {
         return true;
     }
 
-    private void checkForExistingCompanyThenSave(Company companyOnInvoice, Invoice newInvoice) {
-        Optional<Company> companyFound = companyRepository.findCompanyByVatNumber(companyOnInvoice.getVatNumber());
+    private Invoice checkForExistingCompanyThenSave(CreateNewInvoiceCommand command) {
+        Optional<Company> companyFound = companyRepository.findCompanyByVatNumber(command.getVatNumber());
+        Invoice newInvoice = modelMapper.map(command, Invoice.class);
         if (companyFound.isPresent()) {
             newInvoice.setCompany(companyFound.get());
             invoiceRepository.save(newInvoice);
         } else {
-            companyOnInvoice.addInvoice(newInvoice);
-            companyRepository.save(companyOnInvoice);
+            Company newCompany = new Company(command.getCompanyName(), command.getVatNumber(), command.getBankAccountNumber());
+            newCompany.addInvoice(newInvoice);
+            companyRepository.save(newCompany);
         }
+        return newInvoice;
     }
 
     private List<Invoice> filterOverdueInvoices(List<Invoice> invoices, String filterBy) {

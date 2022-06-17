@@ -1,5 +1,7 @@
 package invoicekeeper.dtos;
 
+import invoicekeeper.validators.ValidAccountNumber;
+import invoicekeeper.validators.ValidVatFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +16,10 @@ public class AddNewCompanyCommand {
     private String companyName;
 
     @NotBlank
+    @ValidVatFormat
     private String vatNumber;
 
     @NotBlank
+    @ValidAccountNumber
     private String bankAccountNumber;
 }

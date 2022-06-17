@@ -8,7 +8,7 @@ import java.net.URI;
 public class IncorrectPaymentException extends AbstractThrowableProblem {
     public IncorrectPaymentException(int amount) {
         super(URI.create("invoices/incorrect-amount"),
-                "Incorrect amount.", Status.CONFLICT, String.format("You can not pay more than the invoice amount: %d Ft.", amount));
+                "Incorrect amount.", Status.CONFLICT, String.format("You can not pay more than the invoice amount: %d.", amount));
     }
     public IncorrectPaymentException(String bankAccountNumber) {
         super(URI.create("invoices/incorrect-account-number"),
