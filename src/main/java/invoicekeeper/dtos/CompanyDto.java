@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,5 +17,5 @@ public class CompanyDto {
     private String companyName;
     private String vatNumber;
     private String bankAccountNumber;
-    private List<InvoiceDto> invoices;
+    private List<InvoiceDto> invoices = new ArrayList<>();
 }

@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Violation {
     private String field;
-    private String defaultMessage;
+    private String message;
 }

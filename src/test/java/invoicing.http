@@ -37,7 +37,7 @@ Accept: application/json
 }
 
 ###
-GET http://localhost:8080/api/invoices/3
+GET http://localhost:8080/api/invoices
 Accept: application/json
 
 ###
@@ -58,7 +58,7 @@ Accept: application/json
 
 {
   "companyName": "Infornax Kft",
-  "vatNumber": "12345670-1-22",
+  "vatNumber": "12364570-1-22",
   "bankAccountNumber": "48964812-86548945-00000000"
 }
 
@@ -88,7 +88,7 @@ Accept: application/json
 }
 
 ###
-GET http://localhost:8080/api/companies/2
+GET http://localhost:8080/api/companies?nameSearch=uro
 Accept: application/json
 
 ###

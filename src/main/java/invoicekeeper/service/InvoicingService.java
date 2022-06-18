@@ -114,8 +114,8 @@ public class InvoicingService {
         return modelMapper.map(companyFound, CompanyDto.class);
     }
 
-    public List<CompanyDto> findAllCompanies(Optional<String> textInCompanyName) {
-        List<Company> companiesFound = companyRepository.findAllCompanies(textInCompanyName);
+    public List<CompanyDto> findAllCompanies(Optional<String> searchName) {
+        List<Company> companiesFound = companyRepository.findAllCompanies(searchName);
         Type resultList = new TypeToken<List<CompanyDto>>(){}.getType();
         return modelMapper.map(companiesFound, resultList);
     }

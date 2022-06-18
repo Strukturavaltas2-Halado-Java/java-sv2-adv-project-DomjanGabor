@@ -10,9 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
-    @Query("select c from Company c where :textInCompanyName is null or c.companyName like %:textInCompanyName%")
-    List<Company> findAllCompanies(Optional<String> textInCompanyName);
+    @Query("select c from Company c where :searchName is null or c.companyName like concat('%',:searchName ,'%')")
+    List<Company> findAllCompanies(Optional<String> searchName);
 
     Optional<Company> findCompanyByVatNumber(String vatNumber);
-
 }

@@ -14,7 +14,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Optional<Invoice> findByInvoiceNumber(String invoiceNumber);
 
     @Query("select i from Invoice i where " +
-            "(:companyName is null or i.company.companyName = :companyName) and" +
+            "(:companyName is null or i.company.companyName like concat('%', :companyName, '%')) and" +
             "(:vatNumber is null or i.company.vatNumber = :vatNumber) and " +
             "(:issuedAfter is null or i.issueDate > :issuedAfter)")
     List<Invoice> findInvoicesByParameters(Optional<String> companyName, Optional<String> vatNumber,

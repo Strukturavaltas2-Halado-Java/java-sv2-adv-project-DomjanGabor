@@ -3,7 +3,6 @@ package invoicekeeper.controllers;
 import invoicekeeper.dtos.CreateNewInvoiceCommand;
 import invoicekeeper.dtos.InvoiceDto;
 import invoicekeeper.dtos.PayInvoiceCommand;
-import invoicekeeper.model.Company;
 import invoicekeeper.model.InvoiceItem;
 import invoicekeeper.model.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.zalando.problem.violations.ConstraintViolationProblem;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,21 +27,25 @@ class InvoiceControllerIT {
     @Autowired
     WebTestClient webTestClient;
 
-    CreateNewInvoiceCommand createCommand;
+    CreateNewInvoiceCommand createCommandWithNewCompany;
+    CreateNewInvoiceCommand createCommandWithExistingCompany;
 
     @BeforeEach
     void init() {
-        createCommand = new CreateNewInvoiceCommand("123456", LocalDate.parse("2022-06-17"), LocalDate.parse("2022-06-25"),
+        createCommandWithNewCompany = new CreateNewInvoiceCommand("123456", LocalDate.parse("2022-06-17"), LocalDate.parse("2022-06-25"),
                 PaymentStatus.UNPAYED, List.of(new InvoiceItem("gyufa", 1, 500)), 500,
                 "Penny", "12345678-2-44", "11111111-22222222-33333333");
+        createCommandWithExistingCompany = new CreateNewInvoiceCommand("2468", LocalDate.parse("2022-06-17"), LocalDate.parse("2022-06-25"),
+                PaymentStatus.UNPAYED, List.of(new InvoiceItem("gyufa", 1, 500)), 500,
+                "Euronics", "84512648-1-45", "84245689-12358698-22222222");
     }
 
     @Test
-    @DisplayName("Test: save a new invoice to database.")
-    void testSaveNewInvoice() {
+    @DisplayName("Test: save a new invoice to database with a new company.")
+    void testSaveNewInvoiceWithNewCompany() {
         webTestClient.post()
                 .uri("/api/invoices")
-                .bodyValue(createCommand)
+                .bodyValue(createCommandWithNewCompany)
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(InvoiceDto.class)
@@ -49,11 +53,23 @@ class InvoiceControllerIT {
     }
 
     @Test
+    @DisplayName("Test: save a new invoice to database with an existing company.")
+    void testSaveNewInvoiceWithExistingCompany() {
+        webTestClient.post()
+                .uri("/api/invoices")
+                .bodyValue(createCommandWithExistingCompany)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(InvoiceDto.class)
+                .value(i -> assertEquals("2468", i.getInvoiceNumber()));
+    }
+
+    @Test
     @DisplayName("Test: finding an invoice with given ID.")
     void testGetInvoiceById() {
         InvoiceDto result = webTestClient.post()
                 .uri("/api/invoices")
-                .bodyValue(createCommand)
+                .bodyValue(createCommandWithNewCompany)
                 .exchange()
                 .expectBody(InvoiceDto.class)
                 .returnResult().getResponseBody();
@@ -82,16 +98,16 @@ class InvoiceControllerIT {
     @DisplayName("Test: find all invoices where the company name equals the parameter.")
     void testGetAllInvoicesWithNameParameter() {
         webTestClient.get()
-                .uri("/api/invoices?companyName=Euronics")
+                .uri(uriBuilder -> uriBuilder.path("/api/invoices/").queryParam("companyName", "uro").build())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(InvoiceDto.class)
-                .hasSize(2)
-                .value(i -> assertThat(i).extracting(InvoiceDto::getInvoiceNumber).containsOnly("995468RS", "84568BB"));
+                .hasSize(3)
+                .value(i -> assertThat(i).extracting(InvoiceDto::getInvoiceNumber).containsOnly("995468RS", "84568BB", "45996EE"));
     }
 
     @Test
-    @DisplayName("Test: find all invoices issued after the given parameter. ")
+    @DisplayName("Test: find all invoices issued after the given parameter.")
     void testGetAllInvoicesWithIssueDateParameter() {
         webTestClient.get()
                 .uri("/api/invoices?issuedAfter=2021-05-08")
@@ -119,14 +135,14 @@ class InvoiceControllerIT {
     void testPayInvoice() {
         webTestClient.post()
                 .uri("/api/invoices")
-                .bodyValue(createCommand)
+                .bodyValue(createCommandWithNewCompany)
                 .exchange()
                 .expectBody(InvoiceDto.class)
                 .value(i -> assertEquals(PaymentStatus.UNPAYED, i.getPaymentStatus()));
 
         webTestClient.put()
                 .uri("/api/invoices/payment")
-                .bodyValue(new PayInvoiceCommand(createCommand.getInvoiceNumber(), createCommand.getAmount(), createCommand.getBankAccountNumber()))
+                .bodyValue(new PayInvoiceCommand(createCommandWithNewCompany.getInvoiceNumber(), createCommandWithNewCompany.getAmount(), createCommandWithNewCompany.getBankAccountNumber()))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(InvoiceDto.class)
@@ -136,15 +152,22 @@ class InvoiceControllerIT {
     @Test
     @DisplayName("Test: delete an invoice with given ID.")
     void testDeleteInvoiceById() {
+        InvoiceDto result = webTestClient.post()
+                .uri("/api/invoices")
+                .bodyValue(createCommandWithNewCompany)
+                .exchange()
+                .expectBody(InvoiceDto.class)
+                .returnResult().getResponseBody();
+
         webTestClient.get()
                 .uri("/api/invoices")
                 .exchange()
                 .expectBodyList(InvoiceDto.class)
-                .hasSize(4)
-                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly("123456AB", "84568BB", "995468RS", "45996EE"));
+                .hasSize(5)
+                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly("123456", "123456AB", "84568BB", "995468RS", "45996EE"));
 
         webTestClient.delete()
-                .uri("/api/invoices/1")
+                .uri(uriBuilder -> uriBuilder.path("/api/invoices/{id}").build(result.getId()))
                 .exchange()
                 .expectStatus().isNoContent();
 
@@ -152,7 +175,20 @@ class InvoiceControllerIT {
                 .uri("/api/invoices")
                 .exchange()
                 .expectBodyList(InvoiceDto.class)
-                .hasSize(3)
-                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly("84568BB", "995468RS", "45996EE"));
+                .hasSize(4)
+                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly( "123456AB", "84568BB", "995468RS", "45996EE"));
+    }
+
+    @Test
+    @DisplayName("Test: save invoice with future issue date.")
+    void testValidationWithWrongIssueDate() {
+        createCommandWithNewCompany.setIssueDate(LocalDate.parse("2022-08-30"));
+        webTestClient.post()
+                .uri("/api/invoices")
+                .bodyValue(createCommandWithNewCompany)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ConstraintViolationProblem.class)
+                .value(p -> assertEquals("múltbeli vagy jelen dátumnak kell lennie", p.getViolations().get(0).getMessage()));
     }
 }

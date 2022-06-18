@@ -57,11 +57,11 @@ public class CompanyController {
         return service.getCompanyByVatNumber(vatNumber);
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search for companies by name using a string of text.")
-    public List<CompanyDto> findAllCompanies(@Parameter(example = "Euro") @RequestParam Optional<String> textInCompanyName) {
-        return service.findAllCompanies(textInCompanyName);
+    public List<CompanyDto> findAllCompanies(@Parameter(example = "Euro") @RequestParam Optional<String> searchName) {
+        return service.findAllCompanies(searchName);
     }
 
     @PutMapping("/{id}")

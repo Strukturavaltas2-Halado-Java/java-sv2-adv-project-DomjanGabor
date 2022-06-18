@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,7 +21,7 @@ public class InvoiceDto {
     private LocalDate issueDate;
     private LocalDate dueDate;
     private PaymentStatus paymentStatus;
-    private List<InvoiceItem> items;
+    private List<InvoiceItem> items = new ArrayList<>();
     private int amount;
     private String companyName;
 }
