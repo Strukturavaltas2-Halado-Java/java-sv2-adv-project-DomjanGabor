@@ -41,6 +41,10 @@ GET http://localhost:8080/api/invoices/3
 Accept: application/json
 
 ###
+GET http://localhost:8080/api/invoices/find-item?itemName=öny
+Accept: application/json
+
+###
 GET http://localhost:8080/api/invoices?vatNumber=2134848-4-58&companyName=Pannon Egyetem
 Accept: application/json
 

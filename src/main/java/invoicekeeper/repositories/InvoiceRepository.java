@@ -19,4 +19,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             "(:issuedAfter is null or i.issueDate > :issuedAfter)")
     List<Invoice> findInvoicesByParameters(Optional<String> companyName, Optional<String> vatNumber,
                                            Optional<LocalDate> issuedAfter);
+
+    @Query("select distinct i from Invoice i left join fetch i.items itm where itm.name like %:name%")
+    List<Invoice> findInvoiceByItemName(String name);
 }

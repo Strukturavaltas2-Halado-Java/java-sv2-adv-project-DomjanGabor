@@ -7,5 +7,5 @@ values("123456AB", "2020-12-22", "2020-12-28", "UNPAYED", 1200, 1),("84568BB", "
       ("995468RS", "2021-05-09", "2021-05-19", "UNPAYED", 2080, 2), ("45996EE", "2022-06-15", "2022-06-30", "UNPAYED", 5400, 3);
 
 insert into items_on_invoices(invoice_id, name_of_item, pieces_of_items, total_price)
-values(1, "gyufa", 5, 1000), (1, "könyv", 1, 200), (2, "benzin", 1, 5000), (3, "radír", 3, 1080), (3, "ragasztó", 1, 1000),
+values(1, "gyufa", 5, 1000), (1, "könyv", 1, 200), (2, "benzin", 1, 5000), (3, "könyv", 3, 1080), (3, "könyv", 1, 1000),
       (4, "számológép", 1, 5400);

@@ -44,21 +44,21 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Finding a company by its ID.")
     public CompanyDto findCompanyById(@Parameter(example = "2") @PathVariable("id") long id) {
         return service.getCompanyById(id);
     }
 
     @GetMapping("/vat-number/{vat}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Finding a company by its VAT number.")
     public CompanyDto findCompanyByVatNumber(@Parameter(example = "84512648-1-45") @PathVariable("vat") String vatNumber) {
         return service.getCompanyByVatNumber(vatNumber);
     }
 
     @GetMapping()
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search for companies by name using a string of text.")
     public List<CompanyDto> findAllCompanies(@Parameter(example = "Euro") @RequestParam Optional<String> textInCompanyName) {
         return service.findAllCompanies(textInCompanyName);

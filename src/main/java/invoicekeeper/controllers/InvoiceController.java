@@ -42,20 +42,28 @@ public class InvoiceController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find an invoice by id.")
     public InvoiceDto getInvoiceById(@Parameter(example = "3") @PathVariable("id") long id) {
         return service.getInvoiceById(id);
     }
 
     @GetMapping()
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find invoice by parameters.",
             description = "Add paramteres in the URL to filter for: company name, VAT number, invoices issued after date, overdue invoices.")
     public List<InvoiceDto> getAllInvoices(@RequestParam Optional<String> companyName, @RequestParam Optional<String> vatNumber,
                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> issuedAfter,
                                            @RequestParam Optional<String> isOverDue) {
         return service.getAllInvoices(companyName, vatNumber, issuedAfter, isOverDue);
+    }
+
+    @GetMapping("/find-item")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Find invoices with given items on it.",
+            description = "Add name parameter to URL and find all invoices with the given item.")
+    public List<InvoiceDto> getAllInvoicesWithItem(@RequestParam String itemName) {
+        return service.getInvoicesByItemName(itemName);
     }
 
     @PutMapping("/payment")

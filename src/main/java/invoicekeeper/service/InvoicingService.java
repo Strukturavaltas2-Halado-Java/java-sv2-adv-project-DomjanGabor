@@ -62,6 +62,12 @@ public class InvoicingService {
         return modelMapper.map(filtered, resultList);
     }
 
+    public List<InvoiceDto> getInvoicesByItemName(String name) {
+        List<Invoice> invoices = invoiceRepository.findInvoiceByItemName(name);
+        Type resultList = new TypeToken<List<InvoiceDto>>(){}.getType();
+        return modelMapper.map(invoices, resultList);
+    }
+
     @Transactional
     public boolean deleteInvoiceById(long id) {
         invoiceRepository.deleteById(id);
