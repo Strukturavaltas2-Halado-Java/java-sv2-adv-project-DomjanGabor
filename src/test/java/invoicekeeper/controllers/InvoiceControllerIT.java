@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = {"/cleartables.sql", "/testdata.sql"})
@@ -44,8 +44,8 @@ class InvoiceControllerIT {
                 .bodyValue(createCommand)
                 .exchange()
                 .expectStatus().isCreated()
-                .expectBody()
-                .jsonPath("$.invoiceNumber", equalTo("1234"));
+                .expectBody(InvoiceDto.class)
+                .value(i -> assertEquals("123456", i.getInvoiceNumber()));
     }
 
     @Test
@@ -62,8 +62,8 @@ class InvoiceControllerIT {
                 .uri(uriBuilder -> uriBuilder.path("api/invoices/{id}").build(result.getId()))
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody()
-                .jsonPath("$.invoiceNumber", equalTo("123456"));
+                .expectBody(InvoiceDto.class)
+                .value(i -> assertEquals("123456", i.getInvoiceNumber()));
     }
 
     @Test
@@ -121,16 +121,16 @@ class InvoiceControllerIT {
                 .uri("/api/invoices")
                 .bodyValue(createCommand)
                 .exchange()
-                .expectBody()
-                .jsonPath("$.paymentStatus", equalTo("UNPAYED"));
+                .expectBody(InvoiceDto.class)
+                .value(i -> assertEquals(PaymentStatus.UNPAYED, i.getPaymentStatus()));
 
         webTestClient.put()
                 .uri("/api/invoices/payment")
                 .bodyValue(new PayInvoiceCommand(createCommand.getInvoiceNumber(), createCommand.getAmount(), createCommand.getBankAccountNumber()))
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody()
-                .jsonPath("$.paymentStatus", equalTo("PAYED"));
+                .expectBody(InvoiceDto.class)
+                .value(i -> assertEquals(PaymentStatus.PAYED, i.getPaymentStatus()));
     }
 
     @Test
