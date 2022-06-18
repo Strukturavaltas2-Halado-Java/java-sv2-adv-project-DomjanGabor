@@ -96,13 +96,12 @@ GET http://localhost:8080/api/companies/vat-number/2134848-4-58
 Accept: application/json
 
 ###
-PUT http://localhost:8080/api/companies
+PUT http://localhost:8080/api/companies/1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "vatNumber": "1234115678-1-45",
-  "bankAccountNumber": "12345678-0000000"
+  "bankAccountNumber": "12345678-00000000-45678945"
 }
 
 ###

@@ -64,11 +64,11 @@ public class CompanyController {
         return service.findAllCompanies(textInCompanyName);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update the bank account number of a company.")
-    public CompanyDto changeCompanyAccountNumber(@Valid @RequestBody UpdateAccountNumberCommand command) {
-        return service.updateAccountNumber(command);
+    public CompanyDto changeCompanyAccountNumber(@Parameter(example = "1") @PathVariable("id") long id, @Valid @RequestBody UpdateAccountNumberCommand command) {
+        return service.updateAccountNumber(id, command);
     }
 
     @DeleteMapping("/{id}")

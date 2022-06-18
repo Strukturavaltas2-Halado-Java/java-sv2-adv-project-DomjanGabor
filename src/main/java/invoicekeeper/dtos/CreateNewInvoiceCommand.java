@@ -1,6 +1,5 @@
 package invoicekeeper.dtos;
 
-import invoicekeeper.model.Company;
 import invoicekeeper.model.InvoiceItem;
 import invoicekeeper.model.PaymentStatus;
 import invoicekeeper.validators.ValidAccountNumber;

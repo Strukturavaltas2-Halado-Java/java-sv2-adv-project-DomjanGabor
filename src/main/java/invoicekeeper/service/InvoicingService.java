@@ -97,9 +97,9 @@ public class InvoicingService {
     }
 
     @Transactional
-    public CompanyDto updateAccountNumber(UpdateAccountNumberCommand command) {
-        Company companyFound = companyRepository.findCompanyByVatNumber(command.getVatNumber())
-                .orElseThrow(() -> new CompanyNotFoundException(command.getVatNumber()));
+    public CompanyDto updateAccountNumber(long id, UpdateAccountNumberCommand command) {
+        Company companyFound = companyRepository.findById(id)
+                .orElseThrow(() -> new CompanyNotFoundException(id));
         companyFound.setBankAccountNumber(command.getBankAccountNumber());
         return modelMapper.map(companyFound, CompanyDto.class);
     }
