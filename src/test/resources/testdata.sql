@@ -11,8 +11,8 @@ values("123456AB", "2020-12-22", "2020-12-28", "UNPAYED", 1200, 1),
 
 insert into items_on_invoices(invoice_id, name_of_item, pieces_of_items, total_price)
 values(1, "gyufa", 5, 1000),
-      (1, "könyv", 1, 200),
+      (1, "ceruza", 1, 200),
       (2, "benzin", 1, 5000),
-      (3, "könyv", 3, 1080),
-      (3, "könyv", 1, 1000),
-      (4, "számológép", 1, 5400);
+      (3, "ceruza", 3, 1080),
+      (3, "ceruza", 1, 1000),
+      (4, "kalap", 1, 5400);

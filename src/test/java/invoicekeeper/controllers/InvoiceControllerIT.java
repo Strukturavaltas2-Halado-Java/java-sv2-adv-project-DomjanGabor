@@ -122,7 +122,7 @@ class InvoiceControllerIT {
     @DisplayName("Test: Find all invoices which has the given item on it.")
     void testGetAllInvoicesWithItem() {
         webTestClient.get()
-                .uri("/api/invoices/find-item?itemName=könyv")
+                .uri("/api/invoices/find-item?itemName=ceruza")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(InvoiceDto.class)

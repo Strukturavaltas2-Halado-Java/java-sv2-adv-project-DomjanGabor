@@ -7,6 +7,7 @@ import invoicekeeper.service.InvoicingService;
 import invoicekeeper.validators.Violation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,6 +36,7 @@ public class InvoiceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiResponse(responseCode = "201", description = "Invoice created and saved.")
     @Operation(summary = "Save new invoice to database.",
             description = "Saving new invoice to database. If the company which issued the invoice is not the the database, it is also saved.")
     public InvoiceDto saveNewInvoice(@Valid @RequestBody CreateNewInvoiceCommand command) {
@@ -43,6 +45,7 @@ public class InvoiceController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @ApiResponse(responseCode = "200", description = "Invoice found.")
     @Operation(summary = "Find an invoice by id.")
     public InvoiceDto getInvoiceById(@Parameter(example = "3") @PathVariable("id") long id) {
         return service.getInvoiceById(id);
@@ -50,6 +53,7 @@ public class InvoiceController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
+    @ApiResponse(responseCode = "200", description = "Invoice found.")
     @Operation(summary = "Find invoice by parameters.",
             description = "Add paramteres in the URL to filter for: company name, VAT number, invoices issued after date, overdue invoices.")
     public List<InvoiceDto> getAllInvoices(@RequestParam Optional<String> companyName, @RequestParam Optional<String> vatNumber,
@@ -60,6 +64,7 @@ public class InvoiceController {
 
     @GetMapping("/find-item")
     @ResponseStatus(HttpStatus.OK)
+    @ApiResponse(responseCode = "200", description = "Invoice found.")
     @Operation(summary = "Find invoices with given items on it.",
             description = "Add name parameter to URL and find all invoices with the given item.")
     public List<InvoiceDto> getAllInvoicesWithItem(@RequestParam String itemName) {
@@ -68,6 +73,7 @@ public class InvoiceController {
 
     @PutMapping("/payment")
     @ResponseStatus(HttpStatus.OK)
+    @ApiResponse(responseCode = "201", description = "Invoice payed.")
     @Operation(summary = "Pay invoice.")
     public InvoiceDto payInvoice(@Valid @RequestBody PayInvoiceCommand command) {
         return service.payInvoice(command);
@@ -75,6 +81,7 @@ public class InvoiceController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponse(responseCode = "204", description = "Invoice with ID deleted.")
     @Operation(summary = "Delete an invoice with given id.")
     public boolean deleteInvoiceById(@Parameter(example = "1") @PathVariable("id") long id) {
         return service.deleteInvoiceById(id);
