@@ -24,10 +24,12 @@ public class CreateNewInvoiceCommand {
     @Schema(description = "Invoice number.", example = "THI9545")
     private String invoiceNumber;
 
+    @NotNull
     @PastOrPresent
     @Schema(description = "Date of issue.", example = "2022-05-20")
     private LocalDate issueDate;
 
+    @NotNull
     @Schema(description = "The latest date when the invoice has to be payed.", example = "2022-06-10")
     private LocalDate dueDate;
 
@@ -35,6 +37,7 @@ public class CreateNewInvoiceCommand {
     @Schema(description = "The payment status of the invoice.", example = "UNPAYED")
     private PaymentStatus paymentStatus;
 
+    @NotNull
     @Schema(description = "The items purchased on the invoice. Attributes needed: item name, pieces of items, cost of items")
     private List<InvoiceItem> items;
 

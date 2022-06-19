@@ -31,9 +31,9 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "invoiceNumber": "123456AB",
-  "amount": 1200,
-  "bankAccountNumber": "12345876-86496452"
+  "invoiceNumber": "1454545",
+  "amount": 2400,
+  "bankAccountNumber": "42868483-17058745-12345678"
 }
 
 ###
@@ -63,7 +63,7 @@ Accept: application/json
 }
 
 ###
-POST http://localhost:8080/api/companies/2
+POST http://localhost:8080/api/companies/5
 Content-Type: application/json
 Accept: application/json
 
@@ -88,7 +88,7 @@ Accept: application/json
 }
 
 ###
-GET http://localhost:8080/api/companies?nameSearch=uro
+GET http://localhost:8080/api/companies/1
 Accept: application/json
 
 ###
@@ -96,7 +96,7 @@ GET http://localhost:8080/api/companies/vat-number/2134848-4-58
 Accept: application/json
 
 ###
-PUT http://localhost:8080/api/companies/1
+PUT http://localhost:8080/api/companies/5
 Accept: application/json
 Content-Type: application/json
 
@@ -105,5 +105,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/companies/4
+DELETE http://localhost:8080/api/companies/1
 Accept: application/json
