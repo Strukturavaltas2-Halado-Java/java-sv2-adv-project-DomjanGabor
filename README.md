@@ -23,9 +23,14 @@ Az `Invoice` (számla) entitás a következő attribútumokkal rendelkezik:
 * issueDate - a számlák kiállításának dátuma,
 * dueDate - a számlák fizetési határideje,
 * paymentStatus - kifizetés állapotát jelző enum, melynek két értéke lehet: PAYED és UNPAYED,
-* items - a számlán lévő tételeket tartalmazó lista, mely egy Element Collection,
+* items - a számlán lévő tételeket tartalmazó lista, mely egy `InvoiceItem` objektumokat tartalmazó ElementCollection.
 * amount - a számla összege,
 * company - a kibocsátó vállalkozást (entitást) tartalmazó attribútum.
+
+Az `InvoiceItem` osztály Element Collectionként kapcsolódik a számlákhoz. Attribútumai:
+* name - a tétel megnevezése,
+* pieces - a tétel darabszáma,
+* priceTotal - a tétel ára.
 
 
 Végpontok:
@@ -114,7 +119,7 @@ Az Invoice Keeper háromrétegű alkalmazás, az alábbi rétegekkel:
 * Service - egy osztály (InvoicingService), mely az üzleti logikát tartalmazza, kapcsolatot tart a controller és a repository réteg között.
 * Repository - két osztály (CompanyRepository, InvoiceRepository), mely az adatbázis műveleteket végzi. Adatokat ment, módosítés gyűjt ki.
 
-Az alkalmazás adatbázis rétege MariadDb adatbázist használ.
+Az alkalmazás adatbázis rétege MariaDb adatbázist használ.
 
 A mellékelt Dockerfile segítségével Docker image generálható, így az alkalmazás Dockerből is futtatható.
 
