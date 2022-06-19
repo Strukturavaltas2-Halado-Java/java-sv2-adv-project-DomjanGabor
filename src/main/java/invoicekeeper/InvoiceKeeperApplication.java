@@ -25,7 +25,7 @@ public class InvoiceKeeperApplication {
 	@Bean
 	public OpenAPI defineOpenApi() {
 		return new OpenAPI()
-				.info(new Info().version("1.0").title("Invoice Keeper API")
+				.info(new Info().version("0.9").title("Invoice Keeper API")
 						.description("Company and invoice register API"));
 	}
 }
