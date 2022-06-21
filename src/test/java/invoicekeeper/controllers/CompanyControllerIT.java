@@ -115,8 +115,8 @@ class CompanyControllerIT {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(CompanyDto.class)
-                .hasSize(3)
-                .value(l -> assertThat(l).extracting(CompanyDto::getCompanyName).containsOnly("Best Byte", "Euronics", "Euro Family"));
+                .hasSize(4)
+                .value(l -> assertThat(l).extracting(CompanyDto::getCompanyName).containsOnly("Best Byte", "Euronics", "Euro Family", "Pannon Egyetem"));
     }
 
 
@@ -168,8 +168,8 @@ class CompanyControllerIT {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(CompanyDto.class)
-                .hasSize(4)
-                .value(l -> assertThat(l).extracting(CompanyDto::getCompanyName).containsOnly("Best Byte", "Euronics", "Euro Family", "Penny"));
+                .hasSize(5)
+                .value(l -> assertThat(l).extracting(CompanyDto::getCompanyName).containsOnly("Best Byte", "Euronics", "Euro Family", "Penny", "Pannon Egyetem"));
 
         webTestClient.delete()
                         .uri(uriBuilder -> uriBuilder.path("/api/companies/{id}").build(result.getId()))
@@ -181,8 +181,8 @@ class CompanyControllerIT {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(CompanyDto.class)
-                .hasSize(3)
-                .value(l -> assertThat(l).extracting(CompanyDto::getCompanyName).containsOnly("Best Byte", "Euro Family", "Euronics"));
+                .hasSize(4)
+                .value(l -> assertThat(l).extracting(CompanyDto::getCompanyName).containsOnly("Best Byte", "Euro Family", "Euronics", "Pannon Egyetem"));
     }
 
     @Test
@@ -194,11 +194,11 @@ class CompanyControllerIT {
                 .bodyValue(addCompanyCommand)
                 .exchange()
                 .expectBody(ConstraintViolationProblem.class)
-                .value(p -> assertEquals("VAT is in incorrect format.", p.getViolations().get(0).getMessage()));
+                .value(p -> assertEquals("VAT number is in incorrect format.", p.getViolations().get(0).getMessage()));
     }
 
     @Test
-    @DisplayName("Test: validate with wrong empty name.")
+    @DisplayName("Test: validate with empty name.")
     void testWrongNameValidator() {
         addCompanyCommand.setCompanyName("  ");
         webTestClient.post()
@@ -206,7 +206,7 @@ class CompanyControllerIT {
                 .bodyValue(addCompanyCommand)
                 .exchange()
                 .expectBody(ConstraintViolationProblem.class)
-                .value(p -> assertEquals("nem lehet üres", p.getViolations().get(0).getMessage()));
+                .value(p -> assertEquals("Company name can not be empty.", p.getViolations().get(0).getMessage()));
     }
 
     @Test

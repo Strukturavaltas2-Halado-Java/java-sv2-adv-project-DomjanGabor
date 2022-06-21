@@ -189,6 +189,19 @@ class InvoiceControllerIT {
                 .exchange()
                 .expectStatus().isBadRequest()
                 .expectBody(ConstraintViolationProblem.class)
-                .value(p -> assertEquals("múltbeli vagy jelen dátumnak kell lennie", p.getViolations().get(0).getMessage()));
+                .value(p -> assertEquals("Issue date can not be in the future.", p.getViolations().get(0).getMessage()));
+    }
+
+    @Test
+    @DisplayName("Test: create invoice with 0 amount.")
+    void testValidationWithWrongAmount() {
+        createCommandWithNewCompany.setAmount(0);
+        webTestClient.post()
+                .uri("/api/invoices")
+                .bodyValue(createCommandWithNewCompany)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ConstraintViolationProblem.class)
+                .value(p -> assertEquals("The amount can not be 0 or lower.", p.getViolations().get(0).getMessage()));
     }
 }

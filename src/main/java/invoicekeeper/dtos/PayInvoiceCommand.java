@@ -1,6 +1,5 @@
 package invoicekeeper.dtos;
 
-import invoicekeeper.validators.ValidAccountNumber;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,22 +8,23 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PayInvoiceCommand {
-    @NotBlank
+    @NotBlank(message = "Invoice number can not be empty.")
     @Schema(description = "Invoice number.", example = "123456AB")
     private String invoiceNumber;
 
-    @Min(1)
+    @Min(message = "The amount can not be 0 or lower.", value = 1)
     @Schema(description = "The cost of the items in total.", example = "1200")
     private int amount;
 
-    @NotBlank
-    @ValidAccountNumber
+    @NotBlank(message = "Bank account number can not be empty.")
+    @Pattern(regexp = "^[0-9]{8}-[0-9]{8}-[0-9]{8}$", message = "Bank account number is in incorrect format.")
     @Schema(description = "The bank account number to transfer the money to.", example = "12345876-86496452-11111111")
     private String bankAccountNumber;
 }
