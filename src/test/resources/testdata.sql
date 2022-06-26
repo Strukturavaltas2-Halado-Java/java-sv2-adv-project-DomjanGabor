@@ -5,15 +5,19 @@ values("Best Byte", "12345678-1-45", "12345876-86496452-11111111"),
       ("Pannon Egyetem", "19265322-1-42", "17246879-30001000-00000000");
 
 insert into invoices (invoice_number, date_of_issue, due_date, payment_status, amount_total, company_id)
-values("123456AB", "2020-12-22", "2020-12-28", "UNPAYED", 1200, 1),
-      ("84568BB", "2021-01-12", "2021-02-01", "PAYED", 5000, 2),
-      ("995468RS", "2021-05-09", "2021-05-19", "UNPAYED", 2080, 2),
-      ("45996EE", "2022-06-15", "2022-06-30", "UNPAYED", 5400, 3);
+values("123456AB", "2020-12-22", "2020-12-28", "PAYED", 1200, 1),
+      ("84568BB", "2021-01-12", "2021-02-01", "PAYED", 10000, 2),
+      ("995468RS", "2022-05-09", "2022-08-19", "UNPAYED", 6000, 2),
+      ("XG45-12", "2022-06-20", "2022-08-02", "UNPAYED", 200, 3),
+      ("45996EE", "2022-06-15", "2022-09-30", "UNPAYED", 5400, 1);
 
 insert into items_on_invoices(invoice_id, name_of_item, pieces_of_items, total_price)
-values(1, "gyufa", 5, 1000),
-      (1, "ceruza", 1, 200),
-      (2, "benzin", 1, 5000),
-      (3, "ceruza", 3, 1080),
-      (3, "ceruza", 1, 1000),
-      (4, "kalap", 1, 5400);
+values(1, "RAM", 5, 1000),
+      (1, "processzor", 1, 200),
+      (2, "okostelefon", 1, 5000),
+      (3, "4K TV", 1, 5000),
+      (3, "Playstation 5", 2, 1000),
+      (4, "termosz", 1, 200),
+      (5, "RAM", 2, 2000),
+      (5, "GPU", 2, 2400),
+      (5, "alaplap", 1, 1000);

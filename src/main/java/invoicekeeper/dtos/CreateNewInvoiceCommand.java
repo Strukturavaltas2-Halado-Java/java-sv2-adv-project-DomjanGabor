@@ -25,7 +25,7 @@ public class CreateNewInvoiceCommand {
     private LocalDate issueDate;
 
     @NotNull(message = "Due date can not be empty.")
-    @Schema(description = "The latest date when the invoice has to be payed.", example = "2022-06-10")
+    @Schema(description = "The latest date when the invoice has to be payed.", example = "2022-08-10")
     private LocalDate dueDate;
 
     @NotNull(message = "Payment status can not be empty.")

@@ -16,8 +16,8 @@ Accept: application/json
 
 {
   "invoiceNumber": "RS110A16-4545",
-  "issueDate": "2022-05-11",
-  "dueDate": "2022-05-30",
+  "issueDate": "2022-06-11",
+  "dueDate": "2022-07-30",
   "paymentStatus": "UNPAYED",
   "items": [
     {

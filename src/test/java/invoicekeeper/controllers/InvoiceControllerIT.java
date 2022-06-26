@@ -90,7 +90,7 @@ class InvoiceControllerIT {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(InvoiceDto.class)
-                .hasSize(4)
+                .hasSize(5)
                 .value(i -> assertThat(i).extracting(InvoiceDto::getCompanyName).containsOnly("Best Byte", "Euronics", "Euro Family"));
     }
 
@@ -103,7 +103,7 @@ class InvoiceControllerIT {
                 .expectStatus().isOk()
                 .expectBodyList(InvoiceDto.class)
                 .hasSize(3)
-                .value(i -> assertThat(i).extracting(InvoiceDto::getInvoiceNumber).containsOnly("995468RS", "84568BB", "45996EE"));
+                .value(i -> assertThat(i).extracting(InvoiceDto::getInvoiceNumber).containsOnly("995468RS", "84568BB", "XG45-12"));
     }
 
     @Test
@@ -114,20 +114,20 @@ class InvoiceControllerIT {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(InvoiceDto.class)
-                .hasSize(2)
-                .value(i -> assertThat(i).extracting(InvoiceDto::getInvoiceNumber).containsOnly("995468RS", "45996EE"));
+                .hasSize(3)
+                .value(i -> assertThat(i).extracting(InvoiceDto::getInvoiceNumber).containsOnly("995468RS", "XG45-12", "45996EE"));
     }
 
     @Test
     @DisplayName("Test: Find all invoices which has the given item on it.")
     void testGetAllInvoicesWithItem() {
         webTestClient.get()
-                .uri("/api/invoices/find-item?itemName=ceruza")
+                .uri("/api/invoices/find-item?itemName=RAM")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(InvoiceDto.class)
                 .hasSize(2)
-                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly("123456AB","995468RS"));
+                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly("123456AB","45996EE"));
     }
 
     @Test
@@ -163,8 +163,8 @@ class InvoiceControllerIT {
                 .uri("/api/invoices")
                 .exchange()
                 .expectBodyList(InvoiceDto.class)
-                .hasSize(5)
-                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly("123456", "123456AB", "84568BB", "995468RS", "45996EE"));
+                .hasSize(6)
+                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly("123456", "123456AB", "84568BB", "995468RS", "45996EE", "XG45-12"));
 
         webTestClient.delete()
                 .uri(uriBuilder -> uriBuilder.path("/api/invoices/{id}").build(result.getId()))
@@ -175,8 +175,8 @@ class InvoiceControllerIT {
                 .uri("/api/invoices")
                 .exchange()
                 .expectBodyList(InvoiceDto.class)
-                .hasSize(4)
-                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly( "123456AB", "84568BB", "995468RS", "45996EE"));
+                .hasSize(5)
+                .value(l -> assertThat(l).extracting(InvoiceDto::getInvoiceNumber).containsOnly( "123456AB", "84568BB", "995468RS", "45996EE", "XG45-12"));
     }
 
     @Test
