@@ -6,9 +6,9 @@ values("Best Byte", "12345678-1-45", "12345876-86496452-11111111"),
 
 insert into invoices (invoice_number, date_of_issue, due_date, payment_status, amount_total, company_id)
 values("123456AB", "2020-12-22", "2020-12-28", "PAYED", 1200, 1),
-      ("84568BB", "2021-01-12", "2021-02-01", "PAYED", 10000, 2),
-      ("995468RS", "2022-05-09", "2022-08-19", "UNPAYED", 6000, 2),
-      ("XG45-12", "2022-06-20", "2022-08-02", "UNPAYED", 200, 3),
+      ("84568BB", "2021-01-12", "2021-02-01", "UNPAYED", 10000, 2),
+      ("995468RS", "2022-05-09", "2022-08-19", "PAYED", 6000, 2),
+      ("XG45-12", "2022-06-10", "2022-06-20", "UNPAYED", 200, 3),
       ("45996EE", "2022-06-15", "2022-09-30", "UNPAYED", 5400, 1);
 
 insert into items_on_invoices(invoice_id, name_of_item, pieces_of_items, total_price)
