@@ -67,7 +67,7 @@ public class InvoiceController {
     @ApiResponse(responseCode = "200", description = "Invoice found.")
     @Operation(summary = "Find invoices with given items on it.",
             description = "Add name parameter to URL and find all invoices with the given item.")
-    public List<InvoiceDto> getAllInvoicesWithItem(@RequestParam String itemName) {
+    public List<InvoiceDto> getAllInvoicesWithItem(@Parameter(example = "RAM") @RequestParam String itemName) {
         return service.getInvoicesByItemName(itemName);
     }
 
